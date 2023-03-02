@@ -1,0 +1,33 @@
+- hosts: all
+  tasks:
+  - name: override sources.list
+    copy:
+      src: sources.list
+      dest: /etc/apt/sources.list
+
+  - name: Add an Apt signing key to a specific keyring file
+    apt_key:
+      file: ./apt-key.gpg
+      keyring: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+
+  - name: update apt
+    apt:
+      update_cache: yes
+
+  - name: install kubelet
+    apt:
+      name: 
+        - kubelet=1.23.17-00
+      state: present
+
+  - name: install kubeadm
+    apt:
+      name: 
+        - kubeadm=1.23.17-00
+      state: present
+
+  - name: install kubectl
+    apt:
+      name: kubectl
+      state: latest
+
